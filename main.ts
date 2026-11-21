@@ -4,9 +4,12 @@
 // Outside the grader, MAKEFUN_OUTPUT_DIR stands in for /output.
 import { cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-game.ts';
 
-const repoRoot = process.cwd();
+// Repo root from this file's own location, NOT process.cwd(): the grader
+// runs `node /bot/main.ts` from another working directory.
+const repoRoot = fileURLToPath(new URL('.', import.meta.url));
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
 rmSync(outDir, { recursive: true, force: true });
